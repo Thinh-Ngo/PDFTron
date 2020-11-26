@@ -1,0 +1,131 @@
+body {
+    background-color: #fafafa;
+  }
+  
+  .header { 
+    padding: 0;
+    height: auto;
+    display: list-item;
+    background-color: #242933;
+    overflow: hidden;
+    position: relative;
+    z-index: 900;
+  }
+  
+  
+  
+  #viewer { 
+    margin: 0 250px 0 0; 
+    padding: 0;
+  }
+  
+  #scroll-view {
+    float: left;
+      bottom: 0;
+      /* leave room for 100px header */
+      height: calc(100% - 55px);
+      width: calc(100% - 300px);
+      overflow: auto;
+      z-index: 0;
+    }
+    
+  #viewer {
+      margin: auto;
+    }
+    
+  .pageContainer {
+      border: 1px solid black;
+      position: relative;
+    }
+  
+  .doc-title-text {
+    color: #ffffff
+  }
+  
+  .header-left {
+    float: left;
+  }
+  
+  .header-right {
+    float: right;
+    padding-top: 13px;
+    padding-right: 10px;
+  }
+  
+  .header-right button{
+    font-size: 20px;
+    vertical-align: middle;
+  }
+  .header-right svg {
+    vertical-align: middle;
+    padding-right: 10px;
+    size: 10px;
+  }
+  
+  #side-bar {
+    border-style: outset;
+    float: right;
+    width: 285px;
+    margin: 0;
+    border-bottom: none;
+    height: calc(100% - 55px);
+  }
+  
+  #side-bar li {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  
+  
+  #side-bar button {
+    background-color: #fafafa;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    width: 160px;
+    font-size: 16px;
+  }
+  #side-bar .side-panel-heading {
+    padding-left: 10px;
+    width: 200px;
+    font-size: 25px;
+    padding-top: 10px;
+  }
+  
+  #side-bar .recipients {
+    border-style: groove;
+  }
+
+  svg:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background:
+                url('loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+body.loading .modal {
+  overflow: hidden;   
+}
+
+body.loading .modal {
+  display: block;
+  position: fixed;
+width: 500px;
+height: 200px;
+top: 50%;
+left: 50%;
+margin-top: -100px; /* Negative half of height. */
+margin-left: -250px; /* Negative half of width. */
+}

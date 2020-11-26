@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html">
+    <script src="WebViewer/lib/core/CoreControls.js"></script>
+    <script src="WebViewer/samples/FileSaver.min.js"></script>
+    <script src="WebViewer/lib/core/pdf/PDFNet.js"></script>
+    <script src="WebViewer/samples/full-apis/Setup.js"></script>
+    <script src="WebViewer/lib/webviewer.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="custom-ui.css">
+</head>
+
+<body style="width:100%; height:100%; margin:0px; padding:0px; overflow:hidden">
+    <div class="header">
+        <div class="header-left">
+            <a href="#default"><img src="Back_black-512.webp" alt="back" width="75" height="55"></a>
+            <svg id="workflow-history" xmlns="http://www.w3.org/2000/svg" width="20" height="50"
+                viewBox="0 -144 1008 1008">
+                <path fill="white"
+                    d="M720 936V648h72v360H0V72h486v72H72v792h648zM864 0l144 144v72L432 792l-288 72 72-288L792 0h72zM395 727l393-392-115-115-392 393-38 152zm541-541v-12L834 72h-12l-98 97 115 115z">
+
+                </path>
+            </svg>
+        </div>
+        <div class="header-right">
+            <svg class="previous-nav" xmlns="http://www.w3.org/2000/svg" width="16" height="22"
+                viewBox="0 -144 864 1008">
+                <path fill="white"
+                    d="M108 504l396 450-54 54L0 504 450 0l54 54zm360 0l396 450-54 54-450-504L810 0l54 54z"></path>
+            </svg>
+            <svg class="next-nav" xmlns="http://www.w3.org/2000/svg" width="16" height="22" viewBox="0 -144 864 1008">
+                <path fill="white"
+                    d="M54 0l450 504-450 504-54-54 396-450L0 54zm360 0l450 504-450 504-54-54 396-450L360 54z"></path>
+            </svg>
+            <svg id="download-button" xmlns="http://www.w3.org/2000/svg" width="18" height="23"
+                viewBox="0 -144 1008 1008">
+                <path fill="white"
+                    d="M252 540l180 180V0h72v720l180-180 54 54-270 270-270-270zm684 180v288H0V720h72v216h792V720h72z">
+                </path>
+            </svg>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="22" viewBox="0 0 865.1 999.1" overflow="scroll">
+                <path fill="white"
+                    d="M619.7 813.4l-52.6-57.6-30.8 26.8 83.4 89.4 162.9-162.9-28.8-28.8zM224 686.8c-5.6 1-10.1 3.8-13.4 8.4l-37.7 48.7-17-13.9c-4-3.3-8.8-4.6-14.4-4-5.6.7-10.3 3-13.9 7-3.6 4-5.1 8.8-4.5 14.4.7 5.6 3 10.4 7 14.4l49.7 38.7 62.6-81.4c3.3-4.6 4.6-9.6 4-14.9-.7-5.3-3.1-9.8-7.5-13.4-4.3-3.7-9.3-5-14.9-4zM285 593.9h212.5c5.3 0 9.9-2 13.9-6s6-8.9 6-14.9c0-13.2-6.6-19.9-19.9-19.9H285c-6 0-10.8 1.8-14.4 5.5-3.6 3.6-5.5 8.4-5.5 14.4s1.8 10.9 5.5 14.9 8.5 6 14.4 6zM171.8 479.7l62.6-82.4c3.3-4 4.6-8.8 4-14.4-.7-5.6-3.3-10.1-7.9-13.4-4.6-3.3-9.8-4.6-15.4-4-5.6.7-10.1 3.3-13.4 7.9L165 422.1l-17-13.9c-4.6-3.3-9.8-4.6-15.4-4-5.6.7-10.1 3.3-13.4 7.9-7.9 9.9-7 19.2 3 27.8l49.6 39.8zM234.4 550.2c3.3-4.6 4.6-9.8 4-15.4-.7-5.6-3.3-10.1-7.9-13.4-4.6-3.3-9.8-4.6-15.4-4-5.6.7-10.1 3.6-13.4 8.9L165 574l-17-12.9c-4.6-3.3-9.8-4.6-15.4-4-5.6.7-10.1 3-13.4 7-3.3 4-4.8 8.8-4.5 14.4.3 5.6 2.8 10.4 7.4 14.4l49.7 38.7 62.6-81.4zM285 431h212.5c5.3 0 9.9-2 13.9-6s6-8.9 6-14.9c0-13.2-6.6-19.9-19.9-19.9H285c-6 0-10.8 2-14.4 6s-5.5 8.8-5.5 14.4 1.8 10.4 5.5 14.4 8.5 6 14.4 6z">
+                </path>
+                <path fill="white"
+                    d="M835.8 672.9c-19.5-33.4-46-59.9-79.5-79.5-22.7-13.2-46.7-21.6-72-25.9V181.8c0-13.9-5.1-26.2-15.4-36.7s-22.7-15.9-37.2-15.9h-104c-2.2-9.2-6.7-17.5-13.7-24.8-10.3-10.6-22.7-15.9-37.2-15.9H432v-20c0-19.2-6.6-35.4-19.9-48.7S382.4 0 362.5 0h-31.8c-19.2 0-35.6 6.5-49.2 19.4s-20.4 29.3-20.4 49.2v19.9h-44.7c-14.6 0-27 5.3-37.2 15.9-7.1 7.3-11.5 15.6-13.7 24.8H52.6c-14.6 0-27 5.3-37.2 15.9C5.1 155.6 0 167.8 0 181.8v725c0 14.6 5.1 27 15.4 37.2 10.3 10.3 22.7 15.4 37.2 15.4h469.1c36.3 26.3 78 39.7 125.3 39.7 59.9 0 111.2-21.2 153.9-63.6 42.7-42.4 64.1-93.7 64.1-153.9.1-39-9.7-75.3-29.2-108.7zM203.6 142c0-8.6 4.3-12.9 12.9-12.9h85.4V68.5c0-7.3 2.6-13.9 7.9-19.9 5.3-6 12.2-8.9 20.9-8.9h31.8c7.3 0 14.2 3 20.9 8.9 5.3 5.3 7.9 11.9 7.9 19.9v60.6h85.4c3.3 0 6.3 1.3 8.9 4 2 2 3 5 3 8.9v64.6c0 7.9-4 11.9-11.9 11.9H216.5c-3.3 0-6.3-1.2-8.9-3.5-2.7-2.3-4-5.1-4-8.4V142zm-151 777.7c-2.6 0-5.6-1-8.9-3-2-3.3-3-6.3-3-8.9v-726c0-7.9 4-11.9 11.9-11.9h111.2v36.7c0 14.6 5.1 27 15.4 37.2s22.7 15.4 37.2 15.4h260.2c14.6 0 27-5.1 37.2-15.4 10.3-10.3 15.4-22.7 15.4-37.2v-36.7h102.3c2.7 0 5.6 1 8.9 3 2 2.6 3 5.6 3 8.9v382.6c-58.5.9-108.5 22.1-150 63.9-25.9 26.1-43.7 55.4-53.8 87.9H285c-6 0-10.9 2-14.9 6-1.3 2-2.5 4.1-3.5 6.5-1 2.3-1.5 5.6-1.5 9.9 0 4.3 1.8 8.4 5.5 12.4 3.6 4 8.4 6 14.4 6h146.5c-.9 8.3-1.4 16.7-1.4 25.3 0 52.6 16.4 98.5 49 137.6H52.6zm719.6-11.9c-34.8 34.4-76.5 51.6-125.1 51.6-48.7 0-90.4-17.2-125.1-51.6-34.8-34.4-52.1-76.1-52.1-125.1S487.3 692 522 657.6c34.8-34.4 76.5-51.6 125.1-51.6 48.7 0 90.4 17.2 125.1 51.6 34.8 34.4 52.1 76.1 52.1 125.1s-17.3 90.6-52.1 125.1z">
+                </path>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 -168 1008 1008">
+                <path fill="white"
+                    d="M445 697c71-83 201 47 118 118-71 83-201-47-118-118zm0-252c71-83 201 47 118 118-71 83-201-47-118-118zm118-134c-71 83-201-47-118-118 71-83 201 47 118 118z">
+                </path>
+            </svg>
+            <button>SAVE TEMPLATE</button>
+
+        </div>
+    </div>
+    <div id="side-bar">
+        <div class="side-panel-heading">
+            RECIPIENTS
+            <span class="secondary-text">(1)</span>
+            <hr>
+        </div>
+        <div class="recipients">
+            <ul>
+                <li>THINH NGO
+                </li>
+            </ul>
+        </div>
+        <ul class='button-list'>
+            <h2 class="title">FIELD</h2>
+            <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 1211 1008">
+                    <path fill="#242933"
+                        d="M1181 978h30v30H0V0h1211v978h-30v-31 31h-29V60H60v887h1121v31zM216 396q0-133 61-133 22 0 41 17 62 55 62 164 0 75-30 141-54 118-112 148-19 8-36 8-30 0-54.5-18t-35-34.5-8-26T115 651q9-5 18.5-3t15.5 11q24 39 51 39 19 0 45.5-27t56.5-94 30-118q0-85-37-131-9-10-19-13v-1 1-1 1q-14 14-14 81 0 147 49 231 25 42 54 42h7q90 0 118-103 8-25 8-55v-6q0-19-10-33h-1q-8 0-15 12-12 15-12 31 0 47 19 86.5t32 48 18 8.5 8-2q8-8 22-40 22-48 44-60 9-7 22-7 31 0 55 35 6 9 17 26 28 44 38 44h5q6 0 7-.5t2-1.5q6-3 12-20 23-68 41-81 10-8 21-8 28 0 64.5 41.5T932 634q14 14 24 14h1q10-1 18 4.5t9.5 15.5-4.5 18q-7 11-24 10t-29-7.5-24.5-18T865 631q-28-32-40-39l1-3-1 3 1-3-1 3 1-7v7h-1l1-7v-3l4 9q-1 1-4 1v-10l4 9-3-5 4 4q-1 0-2 1l-3-5 4 4q0 1-4 9t-15 36.5-17 38.5q-17 29-54 29h-9q-18-2-29-11t-20-19-13.5-17-7.5-13q-25-38-36-47l1-3v3h-1l2-2v3-3l1 3h-1v-3l1 3q-1 0-6.5 5.5t-17 32.5-22.5 42q-20 27-48 27t-46-14q-55-42-72-150-2-13-2-30t12.5-42 30-35 31.5-10q56 0 59 79v6q0 54-22 106t-63 76-87 24h-10q-43-3-70.5-36.5T248 592q-32-87-32-196zm856 251h25q0 19-13 32t-31.5 13-31.5-13-13-31.5 13-31.5 31.5-13 31.5 13 13 31h-25q0-8-6-14t-14.5-6-14.5 6-6 14.5 6 14.5 14.5 6 14.5-6 6-15z">
+                    </path>
+                </svg>
+                <button id="electronic-signature">Electronic Signature</button>
+            </li>
+            <li>
+                <span class="icon icon-initials-field"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20"
+                        viewBox="0 0 1211 1008">
+                        <path fill="#242933"
+                            d="M1181 978h30v30H0V0h1211v978h-30v-31 31h-29V60H60v887h1121v31zM531 239q22 2 25 24t-14 28l-11 1q-145-7-244 104-35 39-37 76-1 19 6 25.5t12 10 13.5 5.5 14 3 15.5 3q70 11 103.5 35t47 45.5T471 640t-16 37-35 33.5-47 29-52 24.5q-51 21-89 32-16 4-26-7t-7-26 19-19q150-43 186-92 11-14 4-29.5t-28.5-27-48-17T284 569q-54-8-78-42-26-39 3-104 21-45 68.5-92T392 260t139-21zm85 6q5-16 20-18.5t26 7.5 6 25q-58 179-59 390 0 13-8.5 20t-19 7-18.5-7-8-20q1-223 61-404zm242-6q10-13 26.5-11.5T907 240t-1 25q-38 53-43 168-1 14-1.5 46.5t-.5 42-.5 32.5-1 37.5 0 36T861 666q3 39 9.5 62t-4.5 33-26 7-19-18q-14-49-15.5-121.5t0-100.5 2.5-55.5 2-51.5 6-62q9-73 42-120zM571 507q-15 8-27.5-.5t-13-22.5 12.5-23q113-63 248-60 60 1 133 2 10 0 16.5 6t8.5 14 0 16-8.5 13-16.5 5q-68-1-123-3-127-4-230 53z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="initials">Initials</button>
+            </li>
+            <li>
+                <span class="icon icon-name-field" ng-class="{'disable-div':prepare.disableFormFields()}"> <svg
+                        xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 1281 1008">
+                        <path fill="#242933"
+                            d="M589 251h60q0 102-72 173.5T403.5 496 230 424.5 158 251q0-50 19.5-95t52-78 78-52.5T403 6t95.5 19.5 78.5 52 52.5 78T649 251h-60q0-75-54-131-56-54-131.5-54T272 120q-54 56-54 131.5T272 382q56 54 131.5 54T535 382q54-55 54-131zm84 260q46 0 77 19.5t41.5 52T802 642v366H0V642q0-61 48-96t110-35h127l129 126 117-126h142zm-77 242h60v195h85V643q0-41-21-58-14-14-47-14H558L416 724 260 571H159q-32 0-56 12-42 21-42 59v305h133V753h61v194h341V753zM741 61q-13 0-21.5-9T711 33t4-17q8-15 26-15h510q17 0 23.5 11t6.5 21-8.5 19-21.5 9H741zm0 157q-13 0-21.5-8.5t-8.5-21 8.5-21.5 21.5-9h510q12 0 21 9t9 19-4 17q-8 15-26 15H741zm0 158h510q13 0 21.5-8.5t8.5-21-9-21.5-21-9H741q-13 0-21.5 9t-8.5 21.5 8.5 21T741 376z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="name">Name</button>
+            </li>
+            <li>
+                <span class="icon icon-email-field"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20"
+                        viewBox="0 -144 1152 1008">
+                        <path fill="#242933"
+                            d="M72 864h1008V370L614 661h-76L72 370v494zm504-264l504-315V144H72v141zm576-528v864H0V72h1152z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="email">Email</button>
+            </li>
+            <li>
+                <span class="icon icon-briefcase"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20"
+                        viewBox="0 -144 1152 1008">
+                        <path fill="#242933"
+                            d="M72 936h1008V576H720v72H432v-72H72v360zm0-432h1008V216H72v288zm360-360h288V84l-12-12H444l-12 12v60zm720 0v864H0V144h360V54l54-54h324l54 54v90h360z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="job-title">Job Title</button>
+            </li>
+            <li>
+                <span class="icon icon-building"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20"
+                        viewBox="0 -144 864 1008">
+                        <path fill="#242933"
+                            d="M360 432v144H216V432h144zm0-216v144H216V216h144zm288 216v144H504V432h144zm0-216v144H504V216h144zM504 936h288V72H72v864h288V720h144v216zM864 0v1008H0V0h864z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="company">Company</button>
+            </li>
+            <li>
+                <span class="icon icon-calendar-li calendar"> <svg xmlns="http://www.w3.org/2000/svg" width="25"
+                        height="20" viewBox="0 -189 1008 1008">
+                        <path fill="#242933"
+                            d="M788 94h135c48 0 85 38 85 85v744c0 48-37 85-85 85H85c-48 0-85-37-85-85V179c0-47 37-85 85-85h136V31c0-20 16-31 32-31 15 0 31 11 31 31v63h189V31c0-20 16-31 32-31 15 0 31 11 31 31v63h189V31c0-20 16-31 32-31 15 0 31 11 31 31v63zm135 851c15 0 22-7 22-22V179c0-15-7-22-22-22H788v63c0 21-16 32-31 32-16 0-32-11-32-32v-63H536v63c0 21-16 32-31 32-16 0-32-11-32-32v-63H284v63c0 21-16 32-31 32-16 0-32-11-32-32v-63H85c-15 0-22 7-22 22v744c0 15 7 22 22 22h838zM662 378h126v94H662v-94zm-221 0h126v94H441v-94zm-220 0h126v94H221v-94zm441 157h126v95H662v-95zm-221 0h126v95H441v-95zm-220 0h126v95H221v-95zm441 158h126v94H662v-94zm-221 0h126v94H441v-94zm-220 0h126v94H221v-94z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="date">Date</button>
+            </li>
+            <li>
+                <span class="icon icon-text-field"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20"
+                        viewBox="0 0 1316 1008">
+                        <path fill="#242933"
+                            d="M360 679q9 0 16 8t8 18q0 9-7 17t-16 8H227q-9 0-15.5-8t-6.5-17.5 6.5-17.5 15.5-8h40q1 2 1 0V340l-2-1h-40q-9 0-15.5-5.5T204 319q0-6 3-11t8-7.5 11-2.5h134q9 0 16 6t7 15-7 14.5-16 5.5h-40l-1 1v339h41zm840-449H121v554h1079V230zm62-61h-1v676H60V169h1202z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="text-field">Text Field</button>
+            </li>
+            <li>
+                <span class="icon icon-text-field"> <svg version="1.1" id="Layer_1" fill="#242933" width="25"
+                        height="20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px" y="0px" viewBox="0 0 1000.4 733.6" xml:space="preserve">
+                        <path id="XMLID_7_" d="M955.3,45.1v643.5H45.1V45.1H955.3 M1000.4,0H0v733.6h1000.4V0z"></path>
+                        <polygon
+                            points="292.6,230.5 292.6,185.2 165.8,185.2 165.8,230.5 206.6,230.5 206.6,420.6 165.8,420.6 165.8,465.8 292.6,465.8 292.6,420.6 251.8,420.6 251.8,230.5 ">
+                        </polygon>
+                        <polygon points="854.5,605.6 560.1,605.6 854.5,311.2 "></polygon>
+                    </svg>
+                </span>
+                <button id="text-area">Text Area</button>
+            </li>
+            <li>
+                <span class="icon icon-radio-button radio"> <svg xmlns="http://www.w3.org/2000/svg" width="25"
+                        height="20" viewBox="0 0 1008 1008">
+                        <path fill="#242933"
+                            d="M676 96.5Q594 61 519 61T386.5 77t-106 44.5T191 191t-69 90Q61 383 61 504q0 148 86 261 87 116 217 159 68 23 149 23t163-35.5T817 817t94.5-141T947 504t-35.5-172T817 191 676 96.5zM504 0q208 0 356 148t148 356-148 356-356 148-356-148T0 504t148-356T504 0zM281 504q0-92 65.5-157.5T504 281t157.5 65.5T727 504t-65.5 157.5T504 727t-157.5-65.5T281 504z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="radio-button">
+                    Radio Button
+                </button>
+            </li>
+            <li>
+                <span class="icon icon-checkbox-checked"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20"
+                        viewBox="0 -144 1008 1008">
+                        <path fill="#242933"
+                            d="M792 270l54 54-432 432-234-234 54-54 180 180zM72 936h864V72H72v864zM1008 0v1008H0V0h1008z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="check-box">Check Box</button>
+            </li>
+            <li>
+                <span class="icon icon-add-text"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20"
+                        viewBox="0 0 1008 1008">
+                        <path fill="#242933"
+                            d="M83 263h23v23H0V0h1008v286H902v-23q0-40-29-68-30-29-68-29H647v639q0 15 9 24 13 13 28 13h84v166H241V842h82q15 0 23-8 14-13 14-29V166H202q-40 0-68 29-28 30-28 68H83v1H60q0-60 42-102 44-42 101-42h203v685q0 34-24.5 58.5T323 888h-37v74h435v-74h-37q-34 0-58-24.5T602 805V120h203q60 0 101 42 42 44 42 102h-23v-23h37V46H46v194h37v23z">
+                        </path>
+                    </svg>
+                </span>
+                <button id="add-text">Add Text</button>
+            </li>
+            <hr>
+            <li><button id="fix-field">Fix Field</button></li>
+        </ul>
+    </div>
+    <div id="scroll-view">
+        <div id="viewer" style="height: 100%; overflow: hidden;"></div>
+    </div>
+    <div class="loading">
+        <div class="modal">
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
