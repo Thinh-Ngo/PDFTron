@@ -1,16 +1,4 @@
 
-
-let dummy_user = {
-    lastname: "Ngo",
-    firstname: "Thinh",
-    date: "11/09/2020",
-    email: "thinhnt@mobile-id.vn",
-    job_title: "developer",
-    company: "mobile-id",
-    initials: "TN",
-    config: "config.js"
-}
-
 WebViewer({
     path: "WebViewer/lib",
     initialDoc: "signed (2).pdf",
@@ -36,57 +24,10 @@ WebViewer({
         const { WidgetFlags } = Annotations;
         const signatureTool = docViewer.getTool(Tools.ToolNames.SIGNATURE);
         const widgetEditingManager = instance.annotManager.getWidgetEditingManager();
-        // const iframeDoc = iframeWindow.document.body;
+        
         instance.openElements(['leftPanel']);
-        //**************CREATE MODAL*************//
-        //***************************************//
-        var Signaturemodal = {
-            dataElement: 'signaturedict',
-            render: function renderCustomModal() {
-                var div = document.createElement("div");
-                hr = document.createElement('hr')
-                btn = document.createElement("BUTTON");
-                btn.setAttribute("id", "sign");
-                btn.innerHTML = "SIGN";
-                div.style.color = 'white';
-                div.style.backgroundColor = 'blue';
-                div.style.padding = '20px 40px';
-                div.style.borderRadius = '10px';
-                div.innerText = 'SIGNATURE DICTIONARY';
-                div.appendChild(hr)
-                div.appendChild(btn)
-                return div
-            }
-        }
-        instance.setCustomModal(Signaturemodal)
-        //----------- END CREATING--------------//
-        //--------------------------------------//
 
-        //**********--- SET POPOP OVERLAYS ---*********//
-        instance.setAnnotationContentOverlayHandler(annotation => {
-            const div = document.createElement('div');
-            div.appendChild(document.createTextNode(`Created by: ${annotation.Author}`));
-            div.appendChild(document.createElement('br'));
-            div.appendChild(document.createTextNode(`Created on ${annotation.DateCreated}`));
-            return div;
-        });
-        //--- END POPOP OVERLAYS ---//
-
-        //*************************************** CREATE DOM *******************************************//
-        //**********************************************************************************************//
-        // const createInnerElement = Annotations.SignatureWidgetAnnotation.prototype.createInnerElement;
-        // console.log('createInnerElement: ', createInnerElement)
-        // Annotations.SignatureWidgetAnnotation.prototype.createInnerElement = function () {
-        //     var div = document.createElement("div");
-        //     div.addEventListener('click', () => {
-        //         alert('hello there.')
-        //     })
-        //     return div;
-        // };
-        //______________________________________________________________________________________________//
-
-        //*********---- CATCH EVENTS ---********//
-
+      
         instance.setHeaderItems(header => {
             header.delete(4);
             header.unshift({
@@ -100,11 +41,8 @@ WebViewer({
         docViewer.on('documentLoaded', async () => {
 
             await PDFNet.initialize();
-            console.log('*********LOOK HERE BITCH********* ', PDFNet)
-
-
+            
             const doc = await docViewer.getDocument().getPDFDoc()
-            console.log('document: ', doc)
 
             docViewer.refreshAll();
             // Update viewer with new document
@@ -114,6 +52,7 @@ WebViewer({
             //*************************************** CATCH EVENT *******************************************//
             //**********************************************************************************************//
             let is_sign = false
+            
             let docbuf = await doc.saveMemoryBuffer(PDFNet.SDFDoc.SaveOptions.e_incremental);
 
             annotManager.on('annotationSelected', (annotations, action) => {
@@ -149,9 +88,7 @@ WebViewer({
             });
             //_____________________________________ END CATCH EVENT ______________________________________//
 
-            //***************************************************************************************************//
-            //***************************************** CREATE FUNCTION *****************************************//
-            //***************************************************************************************************//
+         
             async function print_signature_info() {
                 console.log('================================================================================');
                 console.log('Reading and printing digital signature information');
@@ -215,7 +152,7 @@ WebViewer({
                         console.log('Location: ' + await digsigfield.getLocation().toString());
                         console.log('Reason: ' + await digsigfield.getReason().toString());
                         console.log('Contact info: ' + await digsigfield.getContactInfo().toString());
-                        console.log('digsig: ', digsigfield.getLocation())
+        
                     } else {
                         console.log('SubFilter == e_ETSI_RFC3161 (DocTimeStamp; no signing info)');
                     }
@@ -334,8 +271,6 @@ WebViewer({
                 console.log('================================================================================');
 
                 return myBlur()
-
-                // window.open(fileObjectURL)
             }
 
             function myBlur() {
@@ -470,10 +405,7 @@ WebViewer({
                 doc.fdfUpdate(fdf_doc);
                 console.log('hello done import...: ', fdf_doc)
             }
-            //***************************************************************************************************//
-            //***************************************** ENDING FUNCTION *****************************************//
-            //***************************************************************************************************//
-
+           
             //****************************** SET EVENT LISTENER ********************************//
             document.getElementById('electronic-signature').addEventListener('click', async () => {
                 is_sign = false
@@ -521,15 +453,11 @@ WebViewer({
                 }
             });
             document.getElementById('download-button').addEventListener('click', async () => {
-                // docbuf = await doc.saveMemoryBuffer(PDFNet.SDFDoc.SaveOptions.e_incremental);
-                saveBufferAsPDFDoc(docbuf, 'signed.pdf');
-                // instance.downloadPdf({
-                //     includeAnnotations: true,
-                //     useDisplayAuthor: true,
-                // });
-                instance.Download()
+                instance.downloadPdf({
+                    includeAnnotations: true,
+                    useDisplayAuthor: true,
+                });
             })
             //********************************* END EVENT LISTENER ***********************************//
-
         });
     });
