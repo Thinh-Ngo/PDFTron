@@ -1,9 +1,22 @@
 
+
+let dummy_user = {
+    lastname: "Ngo",
+    firstname: "Thinh",
+    date: "11/09/2020",
+    email: "thinhnt@mobile-id.vn",
+    job_title: "developer",
+    company: "mobile-id",
+    initials: "TN",
+    config: "config.js"
+}
+
 WebViewer({
     path: "WebViewer/lib",
-    initialDoc: "signed (2).pdf",
+    initialDoc: "sample.txt",
     showLocalFilePicker: true,
     fullAPI: true,
+    accessibleMode: true,
     disabledElements: [
         'toolsHeader',
         'ribbons',
@@ -14,35 +27,136 @@ WebViewer({
         'panToolButton',
         'menuButton',
     ],
+    licenseKey: 'Insert commercial license key here after purchase',
 }, document.getElementById('viewer'))
     .then(instance => {
 
         instance.disableElements(['annotationStyleEditButton', 'linkButton']);
         instance.setActiveLeftPanel('notesPanel')
 
-        const { docViewer, Annotations, annotManager, Tools, PDFNet, iframeWindow } = instance;
+        const { docViewer, Annotations, annotManager, Tools, PDFNet, iframeWindow, CoreControls } = instance;
         const { WidgetFlags } = Annotations;
         const signatureTool = docViewer.getTool(Tools.ToolNames.SIGNATURE);
         const widgetEditingManager = instance.annotManager.getWidgetEditingManager();
-        
+        const iframeDoc = iframeWindow.document;
+        console.log("iframeDoc: ", iframeDoc)
         instance.openElements(['leftPanel']);
 
-      
-        instance.setHeaderItems(header => {
-            header.delete(4);
-            header.unshift({
-                type: 'divider'
-            });
-            header.get('viewControlsButton').insertBefore({
-                type: 'spacer'
-            });
-        });
+        //**************CREATE MODAL*************//
+        //***************************************//
+        // var Signaturemodal = {
+        //     dataElement: 'signaturedict',
+        //     render: function renderCustomModal() {
+        //         var div = document.createElement("div");
+        //         hr = document.createElement('hr')
+        //         btn = document.createElement("BUTTON");
+        //         btn.setAttribute("id", "sign");
+        //         btn.innerHTML = "SIGN";
+        //         div.style.color = 'white';
+        //         div.style.backgroundColor = 'blue';
+        //         div.style.padding = '20px 40px';
+        //         div.style.borderRadius = '10px';
+        //         div.innerText = 'SIGNATURE DICTIONARY';
+        //         div.appendChild(hr)
+        //         div.appendChild(btn)
+        //         return div
+        //     }
+        // }
+        // instance.setCustomModal(Signaturemodal)
+
+        // var Mergemodal = {
+        //     dataElement: 'mergedoc',
+        //     render: function renderCustomModal() {
+        //         var div = document.createElement('div');
+        //         h1 = document.createElement('h1');
+        //         h1.innerHTML = "MERGE ANOTHER DOCUMENT";
+        //         input = document.createElement(input);
+        //         input.setAttribute("id", "file-picker");
+        //         input.setAttribute("type", "file");
+        //         input.setAttribute("accept", ".pdf,.jpg,.jpeg,.png,.docx,.xlsx,.pptx,.md");
+        //         div.style.backgroundColor = "#fafafa";
+        //         div.style.border = "1px solid black";
+        //         div.appendChild(h1);
+        //         div.appendChild(input);
+        //         return div;
+        //     }
+        // }
+        // instance.setCustomModal(Mergemodal)
+
+        //----------- END CREATING--------------//
+        //--------------------------------------//
+
+        var myCustomPanel = {
+            tab: {
+                dataElement: 'Merge Document',
+                title: 'Merge Document',
+                img: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="18" viewBox="50 0 1500 950"> <path fill="currentColor" d="M899 733q10 7 7 20-3 12-16 12H227q-7 0-10-3L11 611q-10-8-6-19.5T21 580h40l-50-37q-10-7-6-18.5T21 513h638q6 0 10 3l230 151q10 6 7 18t-16 12h-47zm-65-69L654 546H72l160 118h602zm-602 67h601l-52-34H227q-7 0-10-3l-110-81H72zm669-299q14 8 9.5 23T890 470H227q-7 0-13-4L8 315q-13-9-7-23.5T21 277h638q8 0 12 4zm-667-4h586L654 319H85zm342 420q12 10 1 24-4 5-11.5 5.5T554 874l-42-38v155q0 7-5 12t-12 5-12-5-5-12V832l-49 39q-13 11-23.5-2.5T408 845l88-69zm1-685l-87 69-81-72q-5-4-5.5-11t4-12.5T419 131t12 4l39 36V17q0-7 5-12t12-5 12 5 5 12v160l51-40q14-11 24 1.5t-2 24.5z"></path> </svg>',
+            },
+            panel: {
+                dataElement: 'mergeDocument',
+                render: function () {
+                    var div = document.getElementById('merge_panel');
+                    // async function mergeDoc() {
+                    //     try {
+                    //         console.log('file: ', file)
+                    //         const secondDoc = await CoreControls.createDocument(file);
+                    //         const pagesToInsert = [4, 5, 6];
+                    //         console.log('alo alo ?')
+                    //         const pageIndexToInsert = doc.getPageCount() + 1;
+                    //         doc.insertPages(secondDoc, pagesToInsert, pageIndexToInsert).then(() => {
+                    //             doc.getPageCount(); // 6
+                    //         })
+                    //     } catch (error) {
+                    //         console.log(error)
+                    //     }
+                    // }
+                    return div
+                }
+            }
+        };
+
+
+        //**********--- SET POPOP OVERLAYS ---*********//
+        // instance.setAnnotationContentOverlayHandler(annotation => {
+        //     const div = document.createElement('div');
+        //     div.appendChild(document.createTextNode(`Created by: ${annotation.Author}`));
+        //     div.appendChild(document.createElement('br'));
+        //     div.appendChild(document.createTextNode(`Created on ${annotation.DateCreated}`));
+        //     return div;
+        // });
+
+        //--- END POPOP OVERLAYS ---//
+
+        //*************************************** CREATE DOM *******************************************//
+        //**********************************************************************************************//
+        // const createInnerElement = Annotations.SignatureWidgetAnnotation.prototype.createInnerElement;
+        // console.log('createInnerElement: ', createInnerElement)
+        // Annotations.SignatureWidgetAnnotation.prototype.createInnerElement = function () {
+        //     var div = document.createElement("div");
+        //     div.addEventListener('click', () => {
+        //         alert('hello there.')
+        //     })
+        //     return div;
+        // };
+        //______________________________________________________________________________________________//
+
+        //*********---- CATCH EVENTS ---********//
+
+        // instance.setHeaderItems(header => {
+        //     header.delete(0);
+        //     header.get('viewControlsButton').insertBefore({
+        //         type: 'spacer'
+        //     });
+        // });
 
         docViewer.on('documentLoaded', async () => {
-
+            console.log('document on ?')
             await PDFNet.initialize();
-            
+            console.log('*********LOOK HERE BITCH********* ', PDFNet)
+
+
             const doc = await docViewer.getDocument().getPDFDoc()
+            console.log('DOC: ', doc)
 
             docViewer.refreshAll();
             // Update viewer with new document
@@ -52,12 +166,12 @@ WebViewer({
             //*************************************** CATCH EVENT *******************************************//
             //**********************************************************************************************//
             let is_sign = false
-            
             let docbuf = await doc.saveMemoryBuffer(PDFNet.SDFDoc.SaveOptions.e_incremental);
 
             annotManager.on('annotationSelected', (annotations, action) => {
                 if (action === 'selected') {
-                    if (annotations['0'].G_ === "Sign here" && annotations['0'].ToolName === "AnnotationCreateCallout" && is_sign == true) {
+                    console.log('annotation: ', annotations)
+                    if (annotations['0'].w0 === "Sign here" && annotations['0'].ToolName === "AnnotationCreateCallout" && is_sign == true) {
                         instance.openElements(['signatureModal']);
                         signature_holding = annotManager.getSelectedAnnotations()
                         is_sign = false
@@ -88,7 +202,9 @@ WebViewer({
             });
             //_____________________________________ END CATCH EVENT ______________________________________//
 
-         
+            //***************************************************************************************************//
+            //***************************************** CREATE FUNCTION *****************************************//
+            //***************************************************************************************************//
             async function print_signature_info() {
                 console.log('================================================================================');
                 console.log('Reading and printing digital signature information');
@@ -152,7 +268,7 @@ WebViewer({
                         console.log('Location: ' + await digsigfield.getLocation().toString());
                         console.log('Reason: ' + await digsigfield.getReason().toString());
                         console.log('Contact info: ' + await digsigfield.getContactInfo().toString());
-        
+                        console.log('digsig: ', digsigfield.getLocation())
                     } else {
                         console.log('SubFilter == e_ETSI_RFC3161 (DocTimeStamp; no signing info)');
                     }
@@ -264,6 +380,8 @@ WebViewer({
                 // The actual approval signing will be done during the following incremental save operation.
                 const docbuf = await doc.saveMemoryBuffer(PDFNet.SDFDoc.SaveOptions.e_incremental);
 
+                await instance.closeDocument()
+
                 await instance.loadDocument(docbuf, { filename: 'signed.pdf' })
 
                 saveBufferAsPDFDoc(docbuf, 'signed.pdf');
@@ -271,6 +389,8 @@ WebViewer({
                 console.log('================================================================================');
 
                 return myBlur()
+
+                // window.open(fileObjectURL)
             }
 
             function myBlur() {
@@ -405,7 +525,10 @@ WebViewer({
                 doc.fdfUpdate(fdf_doc);
                 console.log('hello done import...: ', fdf_doc)
             }
-           
+            //***************************************************************************************************//
+            //***************************************** ENDING FUNCTION *****************************************//
+            //***************************************************************************************************//
+
             //****************************** SET EVENT LISTENER ********************************//
             document.getElementById('electronic-signature').addEventListener('click', async () => {
                 is_sign = false
@@ -430,7 +553,7 @@ WebViewer({
                 create_text(content = dummy_user.date, type = null, x = 350, y = 550)
             });
             document.getElementById('text-field').addEventListener('click', async () => {
-                exportAnnotations()
+                docViewer.dispose()
                 // create_text(content = '', 140, 50)
             });
             document.getElementById('text-area').addEventListener('click', () => {
@@ -453,11 +576,56 @@ WebViewer({
                 }
             });
             document.getElementById('download-button').addEventListener('click', async () => {
-                instance.downloadPdf({
-                    includeAnnotations: true,
-                    useDisplayAuthor: true,
-                });
+                // docbuf = await doc.saveMemoryBuffer(PDFNet.SDFDoc.SaveOptions.e_incremental);
+                // saveBufferAsPDFDoc(docbuf, 'signed.pdf');
+                // instance.downloadPdf({
+                //     includeAnnotations: true,
+                //     useDisplayAuthor: true,
+                // });
+                instance.downloadPdf()
+            })
+            instance.setCustomPanel(myCustomPanel);
+
+            const check = document.getElementById('after')
+            function check_radio() {
+                return check.checked
+            }
+
+            document.getElementById('merge').addEventListener('click', async () => {
+                try {
+                    const doc = docViewer.getDocument();
+                    console.log('file: ', file)
+                    const secondDoc = await CoreControls.createDocument(file);
+                    console.log('alo alo ?')
+                    const pagesToInsert = [1, 2];
+                    const pageIndexToInsert = doc.getPageCount() + 1;
+                    // in this example doc.getPageCount() returns 3
+                    if (check_radio() == true) {
+                        doc.insertPages(secondDoc, null, pageIndexToInsert).then(() => {
+                            doc.getPageCount();
+                            instance.closeElements(['menuOverlay', 'leftPanel'])
+                            instance.openElements(['leftPanel']);
+                        });
+                    } else {
+                        doc.insertPages(secondDoc).then(() => {
+                            doc.getPageCount();
+                            instance.closeElements(['leftPanel']);
+                            instance.openElements(['leftPanel']);
+                        });
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+
+            let file
+            document.getElementById('file-picker101').onchange = async (e) => {
+                file = e.target.files[0];
+            };
+            document.getElementById('print').addEventListener('click', () => {
+                instance.print()
             })
             //********************************* END EVENT LISTENER ***********************************//
         });
     });
+
