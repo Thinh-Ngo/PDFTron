@@ -1,0 +1,84 @@
+.divider {
+	display: none;
+}
+
+.HeaderToolsContainer {
+	display: none;
+}
+
+.custom-ribbons-container {
+	display: none
+}
+
+.signature-border {
+	opacity: 0.2 !important;
+	transition: 0.3s !important;
+}
+.signature-border:hover {
+	border: 2px solid !important;
+	opacity: 0.4 !important;
+	background-color: #d7d5df !important;
+	cursor: pointer;
+}
+.signature-border:active {
+	background-color: #b1aeb9 !important;
+	opacity: 0.7 !important;
+  	box-shadow: 0 5px rgb(221, 216, 216) !important;
+  	transform: scaleY(1.25) !important;
+}
+.CustomModal-container {
+	width: 60%;
+	opacity: 0.95;
+	-webkit-animation-name: animatetop;
+  	-webkit-animation-duration: 0.4s;
+ 	animation-name: animatetop;
+  	animation-duration: 0.4s
+}
+@-webkit-keyframes animatetop {
+	from {top:-300px; opacity:0} 
+	to {top:0; opacity:1}
+  }
+  
+@keyframes animatetop {
+	from {top:-300px; opacity:0}
+	to {top:0; opacity:1}
+  }
+  
+.CustomModal-container #signature-properties {
+	margin-top: -250px !important;
+  	position: relative;
+  	background-color: #d9e2fa;
+  	margin: auto;
+  	border: 1px solid #888;
+  	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  	-webkit-animation-name: animatetop;
+  	-webkit-animation-duration: 0.4s;
+  	animation-name: animatetop;
+  	animation-duration: 0.4s
+  }
+.CustomModal-container .close {
+	color: rgb(25, 9, 170);
+  	float: right !important;
+  	font-size: 30px;
+  	font-weight: bold;
+  }
+.CustomModal-container .close:hover,
+.CustomModal-container .close:focus {
+  	color: #000;
+  	text-decoration: none;
+  	cursor: pointer;
+  }
+.CustomModal-container #signature-header {
+	padding: 2px 16px;
+	background-color: #5c79b8;
+	color: white;
+  }
+  
+.CustomModal-container #signature-content {padding: 2px 16px;}
+  
+.CustomModal-container #signature-footer {
+	padding: 2px 16px;
+	background-color:  #5c79b8;
+	color: white;
+	height: 20px;
+  }
